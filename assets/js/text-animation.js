@@ -5,24 +5,25 @@ gsap.config({
 });
 
 function tg_title_animation() {
-
     var tg_var = jQuery('.tg-heading-subheading');
     if (!tg_var.length) {
         return;
     }
+
+    // Clear previous animations and split instances
     const quotes = document.querySelectorAll(".tg-heading-subheading .tg-element-title");
-
     quotes.forEach(quote => {
-
-        //Reset if needed
         if (quote.animation) {
             quote.animation.progress(1).kill();
             quote.split.revert();
         }
+    });
 
+    // Reinitialize SplitText and GSAP animations
+    quotes.forEach(quote => {
         var getclass = quote.closest('.tg-heading-subheading').className;
         var animation = getclass.split('animation-');
-        if (animation[1] == "style4") return
+        if (animation[1] == "style4") return;
 
         quote.split = new SplitText(quote, {
             type: "lines,words,chars",
@@ -48,6 +49,7 @@ function tg_title_animation() {
                 opacity: 0,
             });
         }
+
         quote.animation = gsap.to(quote.split.chars, {
             scrollTrigger: {
                 trigger: quote,
